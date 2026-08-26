@@ -84,7 +84,7 @@ for PROJECTPATH in ${PROJECTPATHS}; do
 
     # Was there any change upstream? Skip if not.
     if [[ -z "$(git log --oneline HEAD..FETCH_HEAD)" ]]; then
-        echo -e "nochange\t\t${PROJECTPATH}" | tee -a "${MERGEDREPOS}"
+        echo -e "nochange\t${PROJECTPATH}" | tee -a "${MERGEDREPOS}"
         continue
     fi
 
@@ -92,7 +92,8 @@ for PROJECTPATH in ${PROJECTPATHS}; do
 
     CONFLICT=""
     if [[ -n "$(git status --porcelain)" ]]; then
-        CONFLICT="conflict-"
+        echo -e "conflict-merge\t${PROJECTPATH}" | tee -a "${MERGEDREPOS}"
+    else
+        echo -e "merge\t\t${PROJECTPATH}" | tee -a "${MERGEDREPOS}"
     fi
-    echo -e "${CONFLICT}merge\t\t${PROJECTPATH}" | tee -a "${MERGEDREPOS}"
 done
