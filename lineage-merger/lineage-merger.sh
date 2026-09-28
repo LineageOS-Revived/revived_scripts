@@ -38,11 +38,11 @@ fi
 
 TOP="$(gettop)"
 MERGEDREPOS="${TOP}/merged_repos_lineage.txt"
-MANIFEST="${TOP}/.repo/manifests/snippets/revived.xml"
 REVIVED_BRANCH=$(git -C ${TOP}/.repo/manifests.git config --get branch.default.merge | sed 's#refs/heads/##g')
 
 # Build list of Revived forked repos
 PROJECTPATHS=$(repo forall -g lineage -c 'echo -n "$REPO_PATH "')
+repo forall -g lineage -c 'git pull github "${REVIVED_BRANCH}" --unshallow'
 
 echo "#### LineageOS branch = ${BRANCH} Branch = ${REVIVED_BRANCH} ####"
 
